@@ -8,7 +8,7 @@
     "prepublishOnly": "git stash && npm run build && npm run test",
     "prepare": "husky install",
     "preversion": "npm run build && npm run test",
-    "version": "conventional-changelog -i CHANGELOG.md -s -n conventional-changelog.config.js && git add CHANGELOG.md",
+    "version": "conventional-changelog -i CHANGELOG.md -s -n conventional-changelog.config.cjs && git add CHANGELOG.md",
     "lint": "prettier -c . && eslint src --max-warnings=0",
     "lint:fix": "prettier -w . && eslint src --fix",
     "build:esbuild": "esbuild src/index.ts --format=esm --bundle --sourcemap --outdir=dist",
@@ -21,6 +21,13 @@
   "contributors": [
     "Congcong Cai <congcong.ca.cai@bmw.com>"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Schleifner/as-heap-analyzer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Schleifner/as-heap-analyzer/issues"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",
