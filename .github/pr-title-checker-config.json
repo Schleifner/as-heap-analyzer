@@ -4,7 +4,7 @@
     "color": "EEEEEE"
   },
   "CHECKS": {
-    "prefixes": ["fix: ", "feat: ", "docs: ", "ci: ", "test: "]
+    "prefixes": ["fix: ", "feat: ", "docs: ", "ci: ", "test: ", "chore: ", "refactor: ", "pref: "]
   },
   "MESSAGES": {
     "success": "All OK",
