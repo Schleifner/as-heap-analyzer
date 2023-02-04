@@ -9,14 +9,14 @@
     "prepare": "husky install",
     "preversion": "npm run build && npm run test",
     "version": "conventional-changelog -i CHANGELOG.md -s -n conventional-changelog.config.js && git add CHANGELOG.md",
+    "lint": "prettier -c . && eslint src --max-warnings=0",
+    "lint:fix": "prettier -w . && eslint src --fix",
     "build:esbuild": "esbuild src/index.ts --format=esm --bundle --sourcemap --outdir=dist",
     "build:dts": "tsc --emitDeclarationOnly --outDir dist",
     "watch:esbuild": "npm run build:esbuild -- --watch",
     "watch:dts": "npm run build:dts -- --watch",
     "build": "npm run build:esbuild && npm run build:dts",
-    "test": "cd e2e && npm test",
-    "lint": "prettier -c . && eslint src --max-warnings=0 && eslint assembly --max-warnings=0",
-    "lint:fix": "prettier -w . && eslint src --fix && eslint assembly --fix"
+    "test": "cd e2e && npm run asbuild && npm test"
   },
   "contributors": [
     "Congcong Cai <congcong.ca.cai@bmw.com>"

@@ -8,7 +8,6 @@ const SL_BITS = 4;
 const SL_SIZE = 1 << SL_BITS;
 
 const SB_BITS = SL_BITS + AL_BITS;
-const SB_SIZE = 1 << SB_BITS;
 
 const FL_BITS = 31 - SB_BITS;
 
@@ -20,20 +19,18 @@ const ROOT_SIZE = HL_END + 4;
 
 const BLOCK_OVERHEAD = 4;
 
-type AnalysisInput = {
+interface AnalysisInput {
   heapBase: number;
-  classInfo: {
-    [k: number]: string;
-  };
-};
+  classInfo: Record<number, string>;
+}
 
 type AnalysisResult = Map<string | number, number>;
 
 function extractInputInfoFromWasm(wasmModule: Uint8Array): AnalysisInput {
-  let parser = new wasmParser.BinaryReader();
+  const parser = new wasmParser.BinaryReader();
   parser.setData(wasmModule.buffer, 0, wasmModule.length);
 
-  while (true) {
+  for (;;) {
     if (!parser.read()) {
       throw Error(`invalid wasm in ${parser.position}`);
     }
@@ -49,7 +46,7 @@ function extractInputInfoFromWasm(wasmModule: Uint8Array): AnalysisInput {
         }
       }
       case wasmParser.BinaryReaderState.BEGIN_SECTION: {
-        const sectionInfo = <wasmParser.ISectionInformation>parser.result;
+        const sectionInfo = parser.result as wasmParser.ISectionInformation;
         if (
           sectionInfo.id === wasmParser.SectionCode.Custom &&
           wasmParser.bytesToString(sectionInfo.name) == "heapAnalyzerInfo"
@@ -61,14 +58,14 @@ function extractInputInfoFromWasm(wasmModule: Uint8Array): AnalysisInput {
         break;
       }
       case wasmParser.BinaryReaderState.SECTION_RAW_DATA: {
-        return JSON.parse(wasmParser.bytesToString(parser.result as Uint8Array));
+        return JSON.parse(wasmParser.bytesToString(parser.result as Uint8Array)) as AnalysisInput;
       }
     }
   }
 }
 
 export function analysis(memory: WebAssembly.Memory, wasmModule: Uint8Array): AnalysisResult {
-  let result: AnalysisResult = new Map();
+  const result: AnalysisResult = new Map();
   const info = extractInputInfoFromWasm(wasmModule);
   const heapBase = info.heapBase; // from wasm
   const rootOffset = (heapBase + AL_MASK) & ~AL_MASK;
@@ -79,7 +76,7 @@ export function analysis(memory: WebAssembly.Memory, wasmModule: Uint8Array): An
   let next = memStartI32;
   while (next < datas.length - 1) {
     const currentOffset = next;
-    const mminfo = datas[next]!;
+    const mminfo = datas[next];
     if (mminfo == undefined) {
       break;
     }
@@ -89,15 +86,15 @@ export function analysis(memory: WebAssembly.Memory, wasmModule: Uint8Array): An
     const blockFree = (mminfo & 1) == 1;
     if (!blockFree) {
       const rtid = datas[currentOffset + 3];
-      if (rtid == undefined || info.classInfo[rtid] == undefined) {
+      if (rtid == undefined) {
+        break;
+      }
+      const key = info.classInfo[rtid];
+      if (key == undefined) {
         // unmanaged class
         break;
       }
-      const key = info.classInfo[rtid]!;
-      if (!result.has(key)) {
-        result.set(key, 0);
-      }
-      result.set(key, result.get(key)! + blockSize);
+      result.set(key, (result.get(key) ?? 0) + blockSize);
     }
   }
 

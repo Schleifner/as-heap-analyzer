@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <script type="module">
-      import { memory } from "./build/debug.js";
+      import { memory } from "./build/release.js";
       import { analysis } from "../dist/index.js";
-      const wasm = (await (await fetch(new URL("build/debug.wasm", import.meta.url))).body.getReader().read()).value;
+      const wasm = (await (await fetch(new URL("build/release.wasm", import.meta.url))).body.getReader().read()).value;
       console.log(wasm);
       const memoryUsage = analysis(memory, wasm);
       memoryUsage.forEach((v, k) => {
