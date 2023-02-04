@@ -1,7 +1,5 @@
 import * as assemblyscript from "assemblyscript";
 import { Transform } from "assemblyscript/transform";
-import { writeFileSync } from "fs";
-import { join } from "path";
 
 class AddHeapAnalyzerInfo extends Transform {
   getHeapBase(module) {

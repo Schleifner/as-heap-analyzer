@@ -24,7 +24,7 @@ interface AnalysisInput {
   classInfo: Record<number, string>;
 }
 
-type AnalysisResult = Map<string | number, number>;
+type AnalysisResult = Map<string, number>;
 
 function extractInputInfoFromWasm(wasmModule: Uint8Array): AnalysisInput {
   const parser = new wasmParser.BinaryReader();
