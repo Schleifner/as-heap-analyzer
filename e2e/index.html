@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script type="module">
+      import { memory } from "./build/debug.js";
+      import { analysis } from "../dist/index.js";
+      const wasm = (await (await fetch(new URL("build/debug.wasm", import.meta.url))).body.getReader().read()).value;
+      console.log(wasm);
+      const memoryUsage = analysis(memory, wasm);
+      memoryUsage.forEach((v, k) => {
+        document.body.innerText += `${k} use ${v} bytes\n`;
+        console.log(`${k} use ${v} bytes`);
+      });
+    </script>
+  </head>
+
+  <body></body>
+</html>

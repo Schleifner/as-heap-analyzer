@@ -1,0 +1,44 @@
+{
+  "name": "as-heap-analyzer",
+  "version": "1.0.0",
+  "description": "assemblyscript heap dump analysis tooling",
+  "module": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "prepublishOnly": "git stash && npm run build && npm run test",
+    "prepare": "husky install",
+    "preversion": "npm run build && npm run test",
+    "version": "conventional-changelog -i CHANGELOG.md -s -n conventional-changelog.config.js && git add CHANGELOG.md",
+    "build:esbuild": "esbuild src/index.ts --format=esm --bundle --sourcemap --outdir=dist",
+    "build:dts": "tsc --emitDeclarationOnly --outDir dist",
+    "watch:esbuild": "npm run build:esbuild -- --watch",
+    "watch:dts": "npm run build:dts -- --watch",
+    "build": "npm run build:esbuild && npm run build:dts",
+    "test": "cd e2e && npm test",
+    "lint": "prettier -c . && eslint src --max-warnings=0 && eslint assembly --max-warnings=0",
+    "lint:fix": "prettier -w . && eslint src --fix && eslint assembly --fix"
+  },
+  "contributors": [
+    "Congcong Cai <congcong.ca.cai@bmw.com>"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
+    "@types/jest": "^29.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "assemblyscript": "^0.27.0",
+    "conventional-changelog-cli": "^2.2.2",
+    "esbuild": "^0.17.5",
+    "eslint": "^8.33.0",
+    "eslint-config-prettier": "^8.6.0",
+    "husky": "^8.0.3",
+    "jest": "^29.4.1",
+    "prettier": "^2.8.3",
+    "pretty-quick": "^3.1.3",
+    "ts-jest": "^29.0.5",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.5",
+    "wasmparser": "^5.4.0"
+  }
+}
