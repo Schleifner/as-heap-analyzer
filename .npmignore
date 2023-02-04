@@ -1,0 +1,16 @@
+.github
+.husky
+.vscode
+# dist
+e2e
+node_modules
+# src
+tests
+# transform
+.eslintrc.cjs
+.gitignore
+.prettierignore
+.prettierrc.yaml
+conventional-changelog.config.js
+jest.config.ts
+package-lock.json
