@@ -10,11 +10,11 @@ assemblyscript heap dump analysis tooling
 npm i -D as-heap-analyzer
 ```
 
-2. Before you build assemblyscript to wasm, add `--transform node_modules/as-heap-analyzer/transform/addHeapAnalyzerInfo.mjs`
+2. Before you build assemblyscript to wasm, add `--transform as-heap-analyzer/transform/addHeapAnalyzerInfo.mjs`
    or add following line in `asconfig.json`
 
 ```json
-"transform": ["node_modules/as-heap-analyzer/transform/addHeapAnalyzerInfo.mjs"]
+"transform": ["as-heap-analyzer/transform/addHeapAnalyzerInfo.mjs"]
 ```
 
 3. run code and use `analysis` function
