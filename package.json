@@ -16,7 +16,9 @@
     "watch:esbuild": "npm run build:esbuild -- --watch",
     "watch:dts": "npm run build:dts -- --watch",
     "build": "npm run build:esbuild && npm run build:dts",
-    "test": "cd e2e && npm run asbuild && npm test"
+    "test:e2e": "cd e2e && npm run asbuild && npm test",
+    "test:unit": "jest",
+    "test": "npm run test:unit && npm run test:e2e"
   },
   "contributors": [
     "Congcong Cai <congcong.ca.cai@bmw.com>"
