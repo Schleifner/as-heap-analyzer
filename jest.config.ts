@@ -2,10 +2,10 @@ import type { Config } from "@jest/types";
 
 // Sync object
 const config: Config.InitialOptions = {
-  roots: ["tests-ts"],
+  roots: ["tests"],
   preset: "ts-jest",
   testEnvironment: "node",
-  coverageDirectory: "coverage-ts",
+  coverageDirectory: "coverage",
   collectCoverage: true,
 };
 export default config;
