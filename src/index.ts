@@ -4,7 +4,7 @@ import { extractInputInfoFromWasm } from "./wasmParser";
 
 type AnalysisResult = Map<string, number>;
 
-export function analysis(memory: WebAssembly.Memory, wasmModule: Uint8Array): AnalysisResult {
+export function analysis(memory: Uint8Array, wasmModule: Uint8Array): AnalysisResult {
   const info = extractInputInfoFromWasm(wasmModule);
   const memStartI32 = calculateMemoryStart(info.heapBase) / 4;
   const data = new Uint32Array(memory.buffer);

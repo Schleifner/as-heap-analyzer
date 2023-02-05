@@ -5,7 +5,7 @@ import assert from "assert";
 
 const wasm = readFileSync("build/debug.wasm");
 
-const memoryUsage = analysis(memory, wasm);
+const memoryUsage = analysis(new Uint8Array(memory.buffer), wasm);
 memoryUsage.forEach((v, k) => console.log(`${k} use ${v} bytes`));
 
 assert(memoryUsage.get("assembly/index/A") == 6400);

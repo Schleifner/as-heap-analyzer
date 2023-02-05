@@ -7,8 +7,8 @@
   "scripts": {
     "prepublishOnly": "git stash && npm run build && npm run test",
     "prepare": "husky install",
-    "preversion": "npm run build && npm run test",
-    "version": "conventional-changelog -i CHANGELOG.md -s -n conventional-changelog.config.cjs && git add CHANGELOG.md",
+    "preversion": "npm run lint && npm run build && npm run test",
+    "version": "conventional-changelog -i CHANGELOG.md -s && git add CHANGELOG.md",
     "lint": "prettier -c . && eslint src --max-warnings=0",
     "lint:fix": "prettier -w . && eslint src --fix",
     "build:esbuild": "esbuild src/index.ts --format=esm --bundle --sourcemap --outdir=dist",
@@ -31,6 +31,11 @@
     "url": "https://github.com/Schleifner/as-heap-analyzer/issues"
   },
   "license": "MIT",
+  "keywords": [
+    "assemblyscript",
+    "performance",
+    "wasm"
+  ],
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",
     "@types/jest": "^29.4.0",

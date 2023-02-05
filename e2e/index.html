@@ -6,7 +6,7 @@
       import { analysis } from "../dist/index.js";
       const wasm = (await (await fetch(new URL("build/release.wasm", import.meta.url))).body.getReader().read()).value;
       console.log(wasm);
-      const memoryUsage = analysis(memory, wasm);
+      const memoryUsage = analysis(new Uint8Array(memory.buffer), wasm);
       memoryUsage.forEach((v, k) => {
         document.body.innerText += `${k} use ${v} bytes\n`;
         console.log(`${k} use ${v} bytes`);
