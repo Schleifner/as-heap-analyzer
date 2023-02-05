@@ -13,7 +13,7 @@ export function analysis(memory: WebAssembly.Memory, wasmModule: Uint8Array): An
 
   const result: AnalysisResult = new Map();
 
-  for (const [_, v] of blockInfos) {
+  for (const [, v] of blockInfos) {
     if (v.isManagedMemoryBlock() && v.isAllocated()) {
       const key = info.classInfo[v.runtimeId];
       if (key == undefined) {

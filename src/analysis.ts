@@ -1,9 +1,9 @@
 import { BLOCK_MIN_SIZE } from "./constant";
 
 class MemoryBlock {
-  static MEMORY_INFO_POSITION: number = 0;
-  static RUNTIME_ID_POSITION: number = 3;
-  static OBJECT_SIZE_POSITION: number = 4;
+  static MEMORY_INFO_POSITION = 0;
+  static RUNTIME_ID_POSITION = 3;
+  static OBJECT_SIZE_POSITION = 4;
 
   constructor(public data_: number[]) {}
 
@@ -44,7 +44,7 @@ class MemoryBlock {
 }
 
 export function splitMemoryBlock(data: Uint32Array, memoryStart: number): Map<number, MemoryBlock> {
-  let result = new Map<number, MemoryBlock>();
+  const result = new Map<number, MemoryBlock>();
   let next = memoryStart;
   while (next < data.length - 1) {
     const currentOffset = next;
