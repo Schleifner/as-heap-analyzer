@@ -1,6 +1,6 @@
 {
   "name": "as-heap-analyzer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "assemblyscript heap dump analysis tooling",
   "module": "dist/index.js",
   "type": "module",
@@ -8,7 +8,7 @@
     "prepublishOnly": "git stash && npm run build && npm run test",
     "prepare": "husky install",
     "preversion": "npm run lint && npm run build && npm run test",
-    "version": "conventional-changelog -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "version": "conventional-changelog -i CHANGELOG.md -s",
     "lint": "prettier -c . && eslint src --max-warnings=0",
     "lint:fix": "prettier -w . && eslint src --fix",
     "build:esbuild": "esbuild src/index.ts --format=esm --bundle --sourcemap --outdir=dist",
