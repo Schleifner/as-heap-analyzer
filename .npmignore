@@ -1,6 +1,7 @@
 .github
 .husky
 .vscode
+coverage
 # dist
 e2e
 node_modules

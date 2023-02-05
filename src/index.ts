@@ -1,76 +1,12 @@
-import * as wasmParser from "wasmparser/dist/esm/WasmParser";
-
-const AL_BITS = 4;
-const AL_SIZE = 1 << AL_BITS;
-const AL_MASK = AL_SIZE - 1;
-
-const SL_BITS = 4;
-const SL_SIZE = 1 << SL_BITS;
-
-const SB_BITS = SL_BITS + AL_BITS;
-
-const FL_BITS = 31 - SB_BITS;
-
-const SL_START = 4;
-const SL_END = SL_START + (FL_BITS << 2);
-const HL_START = (SL_END + AL_MASK) & ~AL_MASK;
-const HL_END = HL_START + FL_BITS * SL_SIZE * 4;
-const ROOT_SIZE = HL_END + 4;
-
-const BLOCK_OVERHEAD = 4;
-
-interface AnalysisInput {
-  heapBase: number;
-  classInfo: Record<number, string>;
-}
+import { calculateMemoryStart } from "./memoryStart";
+import { extractInputInfoFromWasm } from "./wasmParser";
 
 type AnalysisResult = Map<string, number>;
-
-function extractInputInfoFromWasm(wasmModule: Uint8Array): AnalysisInput {
-  const parser = new wasmParser.BinaryReader();
-  parser.setData(wasmModule.buffer, 0, wasmModule.length);
-
-  for (;;) {
-    if (!parser.read()) {
-      throw Error(`invalid wasm in ${parser.position}`);
-    }
-    switch (parser.state) {
-      case wasmParser.BinaryReaderState.ERROR: {
-        throw Error(`invalid wasm in ${parser.position}`);
-      }
-      case wasmParser.BinaryReaderState.END_WASM: {
-        if (parser.hasMoreBytes()) {
-          throw Error(`invalid wasm in ${parser.position}`);
-        } else {
-          throw Error(`not transformed wasm`);
-        }
-      }
-      case wasmParser.BinaryReaderState.BEGIN_SECTION: {
-        const sectionInfo = parser.result as wasmParser.ISectionInformation;
-        if (
-          sectionInfo.id === wasmParser.SectionCode.Custom &&
-          wasmParser.bytesToString(sectionInfo.name) == "heapAnalyzerInfo"
-        ) {
-          parser.fetchSectionRawData();
-        } else {
-          parser.skipSection();
-        }
-        break;
-      }
-      case wasmParser.BinaryReaderState.SECTION_RAW_DATA: {
-        return JSON.parse(wasmParser.bytesToString(parser.result as Uint8Array)) as AnalysisInput;
-      }
-    }
-  }
-}
 
 export function analysis(memory: WebAssembly.Memory, wasmModule: Uint8Array): AnalysisResult {
   const result: AnalysisResult = new Map();
   const info = extractInputInfoFromWasm(wasmModule);
-  const heapBase = info.heapBase; // from wasm
-  const rootOffset = (heapBase + AL_MASK) & ~AL_MASK;
-  const memStart = ((rootOffset + ROOT_SIZE + BLOCK_OVERHEAD + AL_MASK) & ~AL_MASK) - BLOCK_OVERHEAD;
-  const memStartI32 = memStart / 4;
+  const memStartI32 = calculateMemoryStart(info.heapBase) / 4;
   const datas = new Uint32Array(memory.buffer);
 
   let next = memStartI32;
