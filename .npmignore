@@ -10,6 +10,7 @@ tests
 # transform
 .eslintrc.cjs
 .gitignore
+.npmrc
 .prettierignore
 .prettierrc.yaml
 jest.config.ts
