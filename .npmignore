@@ -12,6 +12,5 @@ tests
 .gitignore
 .prettierignore
 .prettierrc.yaml
-conventional-changelog.config.js
 jest.config.ts
 package-lock.json
