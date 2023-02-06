@@ -25,3 +25,8 @@ export function analysis(memory: Uint8Array, wasmModule: Uint8Array): AnalysisRe
 
   return result;
 }
+
+export function extractClassInfo(wasmModule: Uint8Array): Record<number, string> {
+  const info = extractInputInfoFromWasm(wasmModule);
+  return info.classInfo;
+}
