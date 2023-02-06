@@ -1,3 +1,5 @@
+import { dumpUsedMemoryDetail } from "../../assembly/index";
+
 class A {
   a: i32 = 10;
   a1: i32 = 10;
@@ -12,9 +14,13 @@ class A {
 
 class B {}
 
-let t: A[] = [];
+export function _start(): void {
+  let t: A[] = [];
 
-for (let i = 0; i < 100; i++) {
-  t.push(new A());
-  let b = new B();
+  for (let i = 0; i < 100; i++) {
+    t.push(new A());
+    let b = new B();
+  }
+
+  trace(dumpUsedMemoryDetail());
 }
