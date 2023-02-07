@@ -11,7 +11,7 @@
     "prepublishOnly": "git stash && npm run build && npm run test",
     "prepare": "husky install",
     "preversion": "npm run lint && npm run build && npm run test",
-    "version": "conventional-changelog -i CHANGELOG.md -s",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "lint": "prettier -c . && eslint src --max-warnings=0",
     "lint:fix": "prettier -w . && eslint src --fix",
     "build:esbuild": "esbuild src/index.ts --format=esm --bundle --sourcemap --outdir=dist",
