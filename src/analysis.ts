@@ -52,8 +52,8 @@ export function splitMemoryBlock(data: Uint32Array, memoryStart: number): Map<nu
     if (memoryInfo == undefined) {
       break;
     }
-    next += 1 + memoryInfo / 4;
     const blockSize = (4 + memoryInfo) & ~3;
+    next += blockSize / 4;
     if (blockSize <= BLOCK_MIN_SIZE) {
       throw Error(`broken heap`);
     }

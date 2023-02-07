@@ -11,4 +11,4 @@ const memoryUsage = analysis(new Uint8Array(memory.buffer), wasm);
 memoryUsage.forEach((v, k) => console.log(`${k} use ${v} bytes`));
 
 assert(memoryUsage.get("assembly/index/A") == 6400);
-assert(memoryUsage.get("assembly/index/B") == 3200);
+assert(memoryUsage.get("assembly/index/B") == 32);

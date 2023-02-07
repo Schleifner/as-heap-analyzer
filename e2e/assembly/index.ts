@@ -16,10 +16,11 @@ class B {}
 
 export function _start(): void {
   let t: A[] = [];
+  let b = new B();
 
   for (let i = 0; i < 100; i++) {
     t.push(new A());
-    let b = new B();
+    b = new B();
   }
 
   trace(dumpUsedMemoryDetail());
