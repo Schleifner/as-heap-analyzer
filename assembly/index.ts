@@ -38,15 +38,15 @@ export function getUsedMemorySize(): u32 {
 
 export function dumpUsedMemoryDetail(): string {
   const totalUsage = getUsedMemorySize();
-  let result = `{\n\ttotalUsage: ${totalUsage},\n\tclassDetail: {\n`;
+  let result = `{"totalUsage":${totalUsage},"classDetail": {`;
   let classDetail: string[] = [];
   for (let i: u32 = 0; i < MEMORY_DETAIL_SIZE; i++) {
     const v = load<u32>(memoryDetail + i * 4);
     if (v != 0) {
-      classDetail.push(`\t\t"${i}": ${v}`);
+      classDetail.push(`"${i}":${v}`);
     }
   }
-  result += classDetail.join(",\n");
-  result += `\n\t}\n}`;
+  result += classDetail.join(",");
+  result += `}}`;
   return result;
 }
