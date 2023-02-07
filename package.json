@@ -4,6 +4,9 @@
   "description": "assemblyscript heap dump analysis tooling",
   "module": "dist/index.js",
   "type": "module",
+  "bin": {
+    "as-heap-analyzer": "cli/index.js"
+  },
   "scripts": {
     "prepublishOnly": "git stash && npm run build && npm run test",
     "prepare": "husky install",
@@ -38,6 +41,7 @@
   ],
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",
+    "@types/inquirer": "^9.0.3",
     "@types/jest": "^29.4.0",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
@@ -54,5 +58,10 @@
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5",
     "wasmparser": "^5.4.0"
+  },
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "commander": "^10.0.0",
+    "inquirer": "^9.1.4"
   }
 }
